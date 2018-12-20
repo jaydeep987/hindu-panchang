@@ -1,0 +1,48 @@
+{
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "start": "expo start --dev",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "eject": "expo eject"
+  },
+  "dependencies": {
+    "@expo/vector-icons": "^8.0.0",
+    "axios": "^0.18.0",
+    "expo": "^31.0.2",
+    "expo-localization": "^1.0.0",
+    "i18next": "^12.1.0",
+    "lodash": "^4.17.11",
+    "native-base": "^2.8.1",
+    "react": "16.5.0",
+    "react-i18next": "^8.3.8",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-31.0.0.tar.gz",
+    "react-native-calendars": "^1.21.0",
+    "react-native-mail": "^3.0.7",
+    "react-native-material-dropdown": "^0.11.1",
+    "react-navigation": "^3.0.4",
+    "react-redux": "^6.0.0",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/expo-localization": "^1.0.0",
+    "@types/i18next": "^12.1.0",
+    "@types/lodash": "^4.14.119",
+    "@types/react": "^16.7.11",
+    "@types/react-native": "^0.57.15",
+    "@types/react-native-calendars": "^1.20.5",
+    "@types/react-navigation": "^2.13.7",
+    "@types/react-redux": "^6.0.11",
+    "babel-preset-expo": "^5.0.0",
+    "expo-env": "^1.1.1",
+    "react-native-typescript-transformer": "^1.2.10",
+    "tslint": "^5.11.0",
+    "tslint-eslint-rules": "^5.4.0",
+    "tslint-loader": "^3.5.4",
+    "tslint-react": "^3.6.0",
+    "typescript": "^3.2.1"
+  },
+  "private": true
+}

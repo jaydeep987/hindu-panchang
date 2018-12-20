@@ -1,0 +1,25 @@
+{
+  "common": {
+    "title": "Hello"
+  },
+  "months-short": {
+    "jan": "Jan",
+    "feb": "Feb",
+    "mar": "Mar",
+    "apr": "Apr",
+    "may": "May",
+    "june": "June",
+    "july": "July",
+    "aug": "Aug",
+    "sep": "Sep",
+    "oct": "Oct",
+    "nov": "Nov",
+    "dec": "Dec"
+  },
+  "home": {
+    "description": "This is home"
+  },
+  "year-selection": {
+    "headerTitle": "Select Year"
+  }
+}
