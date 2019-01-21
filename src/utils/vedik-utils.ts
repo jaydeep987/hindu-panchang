@@ -99,7 +99,7 @@ const latLongData: {[key: string]: LocationOptions} = {
 
 const regionalCalendarNames: {[key in calendarNames]: string[]} = {
   amanta: ['AP', 'GA', 'GUJ', 'KA', 'MH'],
-  purnimanta: ['BR', 'CG', 'DL', 'HR', 'HP', 'JK_JMU', 'JK_KAS', 'JA', 'MP', 'PB', 'UK', 'UP'],
+  purnimanta: ['BR', 'CG', 'DL', 'HR', 'HP', 'JK_JMU', 'JK_KAS', 'JH', 'MP', 'PB', 'UK', 'UP'],
   solar: ['AS', 'KL', 'OR', 'TN', 'TR', 'WB'],
 };
 

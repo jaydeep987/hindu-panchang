@@ -1,5 +1,3 @@
-import * as Mailer from 'react-native-mail';
-
 import { config } from '../common/config';
 
 export enum ErrorLogType {
@@ -53,16 +51,8 @@ const ErrorLogger: ErrorLoggerType = {
  * @param type Type of log
  */
 function sendEmail(options: LogFunctionOptions, type: ErrorLogType): void {
-  console.log("mailer", Mailer);
-  Mailer.mail({
-    subject: '[KApps][HinduCalendar] Log notification',
-    recipients: config.errorLogEmail,
-    body: getMailBody(options, type),
-    isHTML: true,
-  },
-  (error: {}) => {
-    console.log('Some error while sending email..', error); // tslint:disable-line
-  });
+  // TODO add email sending feature in future
+  console.log(getMailBody(options, type)); // tslint:disable-line
 }
 
 /**

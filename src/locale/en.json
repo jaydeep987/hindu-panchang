@@ -21,5 +21,9 @@
   },
   "year-selection": {
     "headerTitle": "Select Year"
+  },
+  "labels": {
+    "vikramSamvat": "vi",
+    "shakSamvat": "sk"
   }
 }

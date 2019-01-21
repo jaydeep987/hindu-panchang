@@ -8,14 +8,18 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import { AdvancePanchangApiRequestParams, fetchAdvancePanchangApiData } from '../../actions/advance-panchang';
+import { fetchRealm } from '../../actions/realm';
 import { config } from '../../common/config';
 import { CALENDAR_HEIGHT, FUTURE_SCROLL_MONTHS, Months, PAST_SCROLL_MONTHS } from '../../common/constants';
 import { Formats, formatDate } from '../../utils/date-utils';
+import { getRegionalCalendarName } from '../../utils/vedik-utils';
 
 import { HomeHeader } from '../../components/HomeHeader/HomeHeader';
 import { AdvancePanchangApiResponse } from '../../interface/advance-panchang-api';
 import { RootState } from '../../interface/app-state';
 import { MapStateToProps } from '../../interface/general';
+import { getSettings } from '../../realm/operations/get-settings';
+import { AppSettings } from '../../interface/app-settings';
 
 const styles: {[key: string]: {}} = StyleSheet.create({
   container: {
@@ -47,6 +51,10 @@ class Home extends React.Component<HomeProps, HomeState> {
       advancePanchangApiData: undefined,
       advancePanchangApiError: undefined,
     };
+  }
+
+  componentWillMount(): void {
+    this.props.fetchRealm();
   }
 
   componentDidMount(): void {
@@ -91,8 +99,6 @@ class Home extends React.Component<HomeProps, HomeState> {
     const { translate } = this.props.screenProps;
     const { currentDate } = this.state;
 
-    console.log('api data: ', this.props.advancePanchangApiData);
-
     return (
       <View style={styles.container}>
         <HomeHeader
@@ -101,7 +107,7 @@ class Home extends React.Component<HomeProps, HomeState> {
           changeMonth={this.changeMonth}
           changeYear={this.changeYear}
           resetCalendar={this.resetCalendar}
-          currentHinduMonthYear="2017"
+          advancePanchangApiData={this.props.advancePanchangApiData}
         />
         <CalendarList
           firstDay={1}
@@ -203,9 +209,11 @@ class Home extends React.Component<HomeProps, HomeState> {
 
 const mapStateToProps: MapStateToProps<HomeReduxProps> = (state: RootState): HomeReduxProps => ({
   advancePanchangApiData: state.advancePanchangApiData.advancePanchagApiData,
+  realm: state.realm.realm,
 });
 
-const ConnectedHome: React.ComponentClass<HomeProps> = connect(mapStateToProps, { fetchAdvancePanchangApiData })(Home);
+const ConnectedHome: React.ComponentClass<HomeProps> =
+  connect(mapStateToProps, { fetchAdvancePanchangApiData, fetchRealm })(Home);
 
 export {
   ConnectedHome as Home,
@@ -213,10 +221,12 @@ export {
 
 interface HomeReduxProps {
   advancePanchangApiData?: AdvancePanchangApiResponse;
+  realm?: Realm;
 }
 
 interface HomeReduxActionProps {
   fetchAdvancePanchangApiData?(reqParams: AdvancePanchangApiRequestParams): void;
+  fetchRealm?(): void;
 }
 
 interface HomeProps extends HomeReduxProps, HomeReduxActionProps {

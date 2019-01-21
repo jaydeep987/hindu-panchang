@@ -1,13 +1,14 @@
 import { TranslationFunction } from 'i18next';
 import { startCase } from 'lodash';
-import { Body, Button, Header, Icon, Left, Right, Title } from 'native-base';
+import { Body, Button, Header, Icon, Left, Right, Subtitle, Title } from 'native-base';
 import * as React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Dropdown } from 'react-native-material-dropdown';
 
-import { Months } from '../../common/constants';
+import { Months, I18NNamespaces } from '../../common/constants';
 import { getDropdownMonthsData } from '../../common/dropdown-data';
 import { Icons } from '../../common/icons';
+import { AdvancePanchangApiResponse } from '../../interface/advance-panchang-api';
 import { Formats, formatDate } from '../../utils/date-utils';
 
 const styles: {[key: string]: {}} = StyleSheet.create({
@@ -39,13 +40,17 @@ const styles: {[key: string]: {}} = StyleSheet.create({
 const RIPPLE_DURATION: number = 100;
 
 const HomeHeader: React.FunctionComponent<HomeHeaderProps> = (props: HomeHeaderProps): JSX.Element => {
-  const { currentDate, currentHinduMonthYear, changeMonth, changeYear, resetCalendar, translate } = props;
+  const { currentDate, advancePanchangApiData, changeMonth, changeYear, resetCalendar, translate } = props;
   const selectedMonth: string =
       startCase(
         Months[
           parseInt(formatDate(currentDate, 'M', translate), 10) - 1
         ].toLowerCase(),
       );
+  const currentShakYear: number = advancePanchangApiData && advancePanchangApiData.shaka_samvat;
+  const currentVikramYear: number = advancePanchangApiData && advancePanchangApiData.vikram_samvat;
+  const vikramLabel: string = `${translate(`${I18NNamespaces.LABELS}:vikramSamvat`)} ${currentVikramYear}`;
+  const shakLabel: string = `${translate(`${I18NNamespaces.LABELS}:shakSamvat`)} ${currentShakYear}`;
 
   const render: () => JSX.Element = (): JSX.Element => (
     <View>
@@ -66,8 +71,11 @@ const HomeHeader: React.FunctionComponent<HomeHeaderProps> = (props: HomeHeaderP
         </Left>
         <Body>
           <Title>
-            <Text>{currentHinduMonthYear}</Text>
+            <Text>{currentVikramYear && vikramLabel}</Text>
           </Title>
+          <Subtitle>
+            <Text>{currentShakYear && shakLabel}</Text>
+          </Subtitle>
         </Body>
         <Right>
           <Button transparent={true} onPress={resetCalendar}>
@@ -90,7 +98,7 @@ export {
 
 interface HomeHeaderProps {
   currentDate: Date;
-  currentHinduMonthYear: string;
+  advancePanchangApiData: AdvancePanchangApiResponse;
   translate: TranslationFunction;
   changeMonth(itemValue: string): void;
   changeYear(): void;

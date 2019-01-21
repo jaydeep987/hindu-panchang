@@ -21,13 +21,11 @@ export function fetchAdvancePanchangApiData(reqParams: AdvancePanchangApiRequest
       const data: AdvancePanchangApiResponse =
         await requestData<AdvancePanchangApiRequestParams, AdvancePanchangApiResponse>(apiEndpoint, reqParams)
         .then(
-          (response: AdvancePanchangApiResponse | AxiosResponse<AdvancePanchangApiResponse>) =>
-            (response as AxiosResponse<AdvancePanchangApiResponse>).data,
+          (response: AdvancePanchangApiResponse | undefined) =>
+            (response as AdvancePanchangApiResponse),
         );
-
       dispatch(fetchData(data));
     } catch (err) {
-      console.log('in action....', err);
       ErrorLogger.error({
         msg: err,
         details: {

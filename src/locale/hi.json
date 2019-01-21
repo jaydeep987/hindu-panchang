@@ -4,5 +4,9 @@
   },
   "home": {
     "description": "ये घर है"
+  },
+  "labels": {
+    "vikramSamvat": "वि.स.",
+    "shakSamvat": "शक.स."
   }
 }
