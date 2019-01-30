@@ -8,5 +8,52 @@
   "labels": {
     "vikramSamvat": "वि.स.",
     "shakSamvat": "शक.स."
+  },
+  "hinduMaah": {
+    "chaitra": "चैत्र",
+    "vaisakh": "वैशाख",
+    "jeth": "ज्येष्ठ",
+    "asadh": "आषाढ़",
+    "shravan": "श्रावण",
+    "bhadarvo": "भाद्रपद",
+    "aso": "अश्विन",
+    "kartik": "कार्तिक",
+    "magsar": "मार्गशीर्ष",
+    "pos": "पौष",
+    "maha": "माघ",
+    "phagan": "फाल्गुन"
+  },
+  "paksh": {
+    "shukl": "शुक्ल",
+    "krishn": "कृष्ण"
+  },
+  "nakshatra": {
+    "ashvini": "अश्विनी",
+    "bharani": "भरणी",
+    "krutika": "कृत्तिका",
+    "rohini": "रोहिणी",
+    "mrigshirsh": "म्रृगशीर्षा",
+    "ardr": "आद्रा",
+    "punarvasu": "पुनर्वसु",
+    "pushy": "पुष्य",
+    "ashlesh": "आश्ळेषा",
+    "magha": "मघा",
+    "purv_phalguni": "पूर्व फल्गुनी",
+    "uttar_phalguni": "उत्तर फल्गुनी",
+    "hast": "हस्त",
+    "chitr": "चित्रा",
+    "svati": "स्वाती",
+    "vishakha": "विशाखा",
+    "anuradha": "अनुराधा",
+    "jyeshta": "ज्येष्ठा",
+    "mul": "मूल",
+    "purvashadha": "पूर्वाषाढा",
+    "uttarashadha": "उत्तराषाढा",
+    "shravan": "श्रवण",
+    "shravishta": "श्रविष्ठा",
+    "shatbhishak": "शतभिषक्",
+    "purv_bhadrapada": "पूर्वभाद्रपदा",
+    "uttar_bhadrapada": "उत्तरभाद्रपदा",
+    "revati": "रेवती"
   }
 }

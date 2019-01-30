@@ -10,12 +10,12 @@ import { Settings } from '../schema/settings';
  * Initializes realm schemas, first time when app is loaded
  * Initialize when app loads
  */
-export function initializeRealm(dispatch: Dispatch): void {
+export function initializeRealm(dispatchRealm: (realm: Realm) => void): void {
   Realm
     .open({ schema:  [Settings] })
     .then((realm: Realm) => {
       const settings: number = realm.objects(Settings.name).length;
-      console.log('settings len ', settings);
+
       if (settings <= 0) {
         realm.write(() => {
           realm.create(Settings.name, {
@@ -24,7 +24,7 @@ export function initializeRealm(dispatch: Dispatch): void {
         });
       }
 
-      dispatch(getRealm(realm));
+      dispatchRealm(realm);
     })
     .catch();
 }

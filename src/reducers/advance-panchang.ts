@@ -1,8 +1,8 @@
 import { AdvancePanchangApiActionTypes } from '../common/action-contants';
 import { AdvancePanchangApiActions } from '../interface/actions';
-import { AdvancePanchangeApiState } from '../interface/app-state';
+import { AdvancePanchangApiState } from '../interface/app-state';
 
-const initialState: AdvancePanchangeApiState = {
+const initialState: AdvancePanchangApiState = {
   advancePanchagApiData: undefined,
 };
 
@@ -12,8 +12,8 @@ const initialState: AdvancePanchangeApiState = {
  * @param action Action received
  */
 export function advancePanchangDataReducer(
-  state: AdvancePanchangeApiState = initialState,
-  action: AdvancePanchangApiActions): AdvancePanchangeApiState {
+  state: AdvancePanchangApiState = initialState,
+  action: AdvancePanchangApiActions): AdvancePanchangApiState {
 
   switch (action.type) {
     case AdvancePanchangApiActionTypes.FETCH_ADVANCE_PANCHANG_DATA:

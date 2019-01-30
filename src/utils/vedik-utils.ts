@@ -118,7 +118,7 @@ export function getRegionalCalendarName(location: string): string {
   Object
     .keys(regionalCalendarNames)
     .forEach((key: string) => {
-      if (regionalCalendarNames.includes(location)) {
+      if (regionalCalendarNames[key as calendarNames].includes(location)) {
         calName = key;
       }
     });

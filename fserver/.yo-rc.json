@@ -1,8 +1,0 @@
-{
-  "generator-http-fake-backend": {
-    "promptValues": {
-      "serverPort": "8008",
-      "apiPrefix": "/panchang_api"
-    }
-  }
-}

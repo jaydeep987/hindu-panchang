@@ -1,25 +1,25 @@
-import Axios, { AxiosResponse } from 'axios';
 import { TranslationFunction, i18n as I18n } from 'i18next';
 import * as React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { CalendarList, DateObject, DayComponentProps } from 'react-native-calendars';
+import { StyleSheet, View } from 'react-native';
+import { Calendar, DateObject } from 'react-native-calendars';
 import { NavigationScreenProp } from 'react-navigation';
-import { connect } from 'react-redux';
+import { MapDispatchToProps, connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import { AdvancePanchangApiRequestParams, fetchAdvancePanchangApiData } from '../../actions/advance-panchang';
+import { MonthlyPanchangRequestParams, fetchMultiMonthPanchangData } from '../../actions/monthly-panchang';
 import { fetchRealm } from '../../actions/realm';
-import { config } from '../../common/config';
-import { CALENDAR_HEIGHT, FUTURE_SCROLL_MONTHS, Months, PAST_SCROLL_MONTHS } from '../../common/constants';
+import {
+  Months,
+} from '../../common/constants';
 import { Formats, formatDate } from '../../utils/date-utils';
-import { getRegionalCalendarName } from '../../utils/vedik-utils';
 
+import { CustomizedCalendarList } from '../../components/CustomizedCalendarList/CustomizedCalendarList';
 import { HomeHeader } from '../../components/HomeHeader/HomeHeader';
 import { AdvancePanchangApiResponse } from '../../interface/advance-panchang-api';
 import { RootState } from '../../interface/app-state';
 import { MapStateToProps } from '../../interface/general';
-import { getSettings } from '../../realm/operations/get-settings';
-import { AppSettings } from '../../interface/app-settings';
+import { MonthlyPanchangApiResponse } from '../../interface/monthly-panchang-api';
 
 const styles: {[key: string]: {}} = StyleSheet.create({
   container: {
@@ -28,6 +28,12 @@ const styles: {[key: string]: {}} = StyleSheet.create({
   btnChangeYear: {
     width: 70,
     color: '#fff',
+  },
+  dayCompDay: {
+    fontSize: 15,
+  },
+  dayCompOthers: {
+    fontSize: 10,
   },
 });
 
@@ -47,7 +53,6 @@ class Home extends React.Component<HomeProps, HomeState> {
 
     this.state = {
       currentDate: new Date(),
-      wasCalendarScrolled: false,
       advancePanchangApiData: undefined,
       advancePanchangApiError: undefined,
     };
@@ -60,44 +65,26 @@ class Home extends React.Component<HomeProps, HomeState> {
   componentDidMount(): void {
     const { currentDate } = this.state;
 
-    this.props.fetchAdvancePanchangApiData({
-      day: currentDate.getDate(),
-      month: currentDate.getMonth() + 1,
-      year: currentDate.getFullYear(),
-      hour: currentDate.getHours(),
-      min: currentDate.getMinutes(),
-      lat: 12312.1231,
-      lon: 232.232,
-      tzone: -5, // TODO get via set language and region
-    });
-  }
-
-  /**
-   * Here to prevent recurssion when updating currentDate in state, we need to decide whether to update component or not
-   * When calendar list is scrolled, we need to update currentDate also. But when we change currentDate,
-   * calendar gets scrolled again because of change in month. So this gives recurring updates.
-   * When calendar is scrolled, we set flag, and if that flag is true and currentDate in current state and next state
-   * are different, then don't update component.
-   *
-   * @param nextProps Next Props
-   * @param nextState Next State
-   */
-  shouldComponentUpdate = (nextProps: HomeProps, nextState: HomeState): boolean => {
-    const { wasCalendarScrolled } = nextState;
-
-    if (wasCalendarScrolled) {
-      return false;
-    }
-
-    return true;
+    this.fetchMultiMonthPanchangData({ month: currentDate.getMonth() + 1, year: currentDate.getFullYear() });
   }
 
   /**
    * Renders app elements
    */
   render(): JSX.Element {
+    const { advancePanchangApiData, monthlyPanchangData } = this.props;
     const { translate } = this.props.screenProps;
     const { currentDate } = this.state;
+    const customizedCalendarlist: JSX.Element = (
+      <CustomizedCalendarList
+        currentDate={currentDate}
+        onVisibleMonthsChange={this.updateCurrentDate}
+        {...this.props}
+      />
+    );
+    const isMonthlyNotAvailable: boolean =
+      !monthlyPanchangData ||
+      monthlyPanchangData && !monthlyPanchangData[`${currentDate.getFullYear()}${currentDate.getMonth() + 1}`];
 
     return (
       <View style={styles.container}>
@@ -107,34 +94,26 @@ class Home extends React.Component<HomeProps, HomeState> {
           changeMonth={this.changeMonth}
           changeYear={this.changeYear}
           resetCalendar={this.resetCalendar}
-          advancePanchangApiData={this.props.advancePanchangApiData}
+          advancePanchangApiData={advancePanchangApiData}
         />
-        <CalendarList
-          firstDay={1}
-          current={currentDate}
-          onVisibleMonthsChange={this.updateCurrentDate}
-          calendarHeight={CALENDAR_HEIGHT}
-          pastScrollRange={PAST_SCROLL_MONTHS}
-          futureScrollRange={FUTURE_SCROLL_MONTHS}
-          dayComponent={this.renderDayComponent}
-        />
+
+        {isMonthlyNotAvailable ? this.renderPlainCalendarList() : customizedCalendarlist}
+
       </View>
     );
   }
 
   /**
-   * Renders custom day component in calendar
+   * Renders non-customized calendar list
    */
-  renderDayComponent = ({date}: DayComponentProps): JSX.Element => {
-
-    return (
-      <View>
-        <Text style={{fontSize: 15}}>{date.day}</Text>
-        <Text style={{fontSize: 10}}>Magshira</Text>
-        <Text style={{fontSize: 10}}>Sud 1</Text>
-      </View>
-    );
-  }
+  renderPlainCalendarList = (): JSX.Element => (
+    <Calendar
+      firstDay={1}
+      hideExtraDays={true}
+      hideArrows={false}
+      current={this.state.currentDate}
+    />
+  )
 
   /**
    * When coming back from YearsSelection screen, change year here.
@@ -145,9 +124,10 @@ class Home extends React.Component<HomeProps, HomeState> {
 
       curDate.setFullYear(year);
 
+      this.fetchMultiMonthPanchangData({ year: curDate.getFullYear(), month: curDate.getMonth() + 1 });
+
       this.setState({
         currentDate: curDate,
-        wasCalendarScrolled: false,
       });
     }
   }
@@ -176,9 +156,14 @@ class Home extends React.Component<HomeProps, HomeState> {
     // change month
     curDate.setMonth(changingMonth);
 
+    if (curDate.getMonth() > changingMonth) {
+      curDate.setDate(-1);
+    }
+
+    this.fetchMultiMonthPanchangData({ month: curDate.getMonth() + 1, year: curDate.getFullYear() });
+
     this.setState({
       currentDate: curDate,
-      wasCalendarScrolled: false,
     });
   }
 
@@ -186,34 +171,78 @@ class Home extends React.Component<HomeProps, HomeState> {
    * Reset calendar to current date
    */
   resetCalendar = (): void => {
+    const now: Date = new Date();
+    this.fetchMultiMonthPanchangData({ month: now.getMonth() + 1, year: now.getFullYear() });
     this.setState({
-      currentDate: new Date(),
-      wasCalendarScrolled: false,
+      currentDate: now,
     });
   }
 
   /**
    * Update current date in state when calendar scrolled
    */
-  updateCurrentDate = (months: DateObject[]): void => {
+  updateCurrentDate = (month: DateObject): void => {
     // Take first item always to get upcoming month.
-    const curTimestamp: number = months[0].timestamp;
+    const curTimestamp: number = month.timestamp;
+    const date: Date = new Date(curTimestamp);
+
+    this.fetchMultiMonthPanchangData(month);
 
     // update state
     this.setState({
-      currentDate: new Date(curTimestamp),
-      wasCalendarScrolled: true,
+      currentDate: date,
+    });
+  }
+
+  /**
+   * Fetches multi month panchang data
+   */
+  fetchMultiMonthPanchangData = ({ month, year }: { month: number; year: number }): void => {
+    const now: Date = new Date();
+
+    this.props.fetchMultiMonthPanchangData({
+      month,
+      year,
+      lat: 12312.1231,
+      lon: 232.232,
+      tzone: -5, // TODO get via set language and region
+    });
+
+    // Also fetch first day's advance data to get some other info like hindu year
+    this.props.fetchAdvancePanchangApiData({
+      day: 1,
+      month,
+      year,
+      hour: now.getHours(),
+      min: now.getMinutes(),
+      lat: 12312.1231,
+      lon: 232.232,
+      tzone: -5, // TODO get via set language and region
     });
   }
 }
 
 const mapStateToProps: MapStateToProps<HomeReduxProps> = (state: RootState): HomeReduxProps => ({
   advancePanchangApiData: state.advancePanchangApiData.advancePanchagApiData,
+  monthlyPanchangData: state.monthlyPanchangApiData.monthlyPanchangApiData,
   realm: state.realm.realm,
 });
 
+const mapDispatchToProps: MapDispatchToProps<HomeReduxActionProps, HomeProps> =
+(dispatch: Dispatch): HomeReduxActionProps => ({
+  fetchAdvancePanchangApiData: (reqParams: AdvancePanchangApiRequestParams): void => {
+    fetchAdvancePanchangApiData(reqParams)(dispatch);
+  },
+  fetchRealm: (): void => {
+    fetchRealm()(dispatch);
+  },
+  fetchMultiMonthPanchangData: (reqParams: MonthlyPanchangRequestParams): void => {
+    fetchMultiMonthPanchangData(reqParams)(dispatch);
+  },
+});
+
 const ConnectedHome: React.ComponentClass<HomeProps> =
-  connect(mapStateToProps, { fetchAdvancePanchangApiData, fetchRealm })(Home);
+  connect(mapStateToProps, mapDispatchToProps)(Home);
 
 export {
   ConnectedHome as Home,
@@ -221,15 +250,17 @@ export {
 
 interface HomeReduxProps {
   advancePanchangApiData?: AdvancePanchangApiResponse;
+  monthlyPanchangData?: { [key: string]: MonthlyPanchangApiResponse};
   realm?: Realm;
 }
 
 interface HomeReduxActionProps {
-  fetchAdvancePanchangApiData?(reqParams: AdvancePanchangApiRequestParams): void;
-  fetchRealm?(): void;
+  fetchAdvancePanchangApiData(reqParams: AdvancePanchangApiRequestParams): void;
+  fetchMultiMonthPanchangData(reqParams: MonthlyPanchangRequestParams): void;
+  fetchRealm(): void;
 }
 
-interface HomeProps extends HomeReduxProps, HomeReduxActionProps {
+export interface HomeProps extends HomeReduxProps, HomeReduxActionProps {
   screenProps: {
     i18n: I18n;
     tReady: boolean;
@@ -246,7 +277,6 @@ interface HomeProps extends HomeReduxProps, HomeReduxActionProps {
 
 interface HomeState {
   currentDate: Date;
-  wasCalendarScrolled: boolean;
   advancePanchangApiData?: AdvancePanchangApiResponse;
   advancePanchangApiError?: {};
 }

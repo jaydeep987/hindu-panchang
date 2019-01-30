@@ -75,6 +75,9 @@ export const Formats: {[K in FormatsType]: string} = {
   s: 's',
   X: 'X',
   x: 'x',
+
+  YYYYMMDD: 'YYYY-MM-DD',
+  YYYYMMDD1: 'YYYY/MM/DD',
 };
 
 interface ReplaceTokenFunctions {
@@ -97,4 +100,6 @@ type FormatsType = 'YYYY' | 'YY' | 'MMM' | 'MM' |
   'ss' |
   's' |
   'X' |
-  'x';
+  'x' |
+  'YYYYMMDD' |
+  'YYYYMMDD1';

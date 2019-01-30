@@ -3,9 +3,9 @@ import { startCase } from 'lodash';
 import { Body, Button, Header, Icon, Left, Right, Subtitle, Title } from 'native-base';
 import * as React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Dropdown } from 'react-native-material-dropdown';
+import { DropDownOffset, Dropdown } from 'react-native-material-dropdown';
 
-import { Months, I18NNamespaces } from '../../common/constants';
+import { I18NNamespaces, Months } from '../../common/constants';
 import { getDropdownMonthsData } from '../../common/dropdown-data';
 import { Icons } from '../../common/icons';
 import { AdvancePanchangApiResponse } from '../../interface/advance-panchang-api';
@@ -47,8 +47,8 @@ const HomeHeader: React.FunctionComponent<HomeHeaderProps> = (props: HomeHeaderP
           parseInt(formatDate(currentDate, 'M', translate), 10) - 1
         ].toLowerCase(),
       );
-  const currentShakYear: number = advancePanchangApiData && advancePanchangApiData.shaka_samvat;
-  const currentVikramYear: number = advancePanchangApiData && advancePanchangApiData.vikram_samvat;
+  const currentShakYear: number | undefined = advancePanchangApiData && advancePanchangApiData.shaka_samvat;
+  const currentVikramYear: number | undefined = advancePanchangApiData && advancePanchangApiData.vikram_samvat;
   const vikramLabel: string = `${translate(`${I18NNamespaces.LABELS}:vikramSamvat`)} ${currentVikramYear}`;
   const shakLabel: string = `${translate(`${I18NNamespaces.LABELS}:shakSamvat`)} ${currentShakYear}`;
 
@@ -64,7 +64,7 @@ const HomeHeader: React.FunctionComponent<HomeHeaderProps> = (props: HomeHeaderP
             data={getDropdownMonthsData(translate)}
             value={selectedMonth}
             containerStyle={styles.dropdownContainer}
-            dropdownOffset={styles.dropdownOffset}
+            dropdownOffset={styles.dropdownOffset as DropDownOffset}
             onChangeText={changeMonth}
             rippleDuration={RIPPLE_DURATION}
           />
@@ -98,7 +98,7 @@ export {
 
 interface HomeHeaderProps {
   currentDate: Date;
-  advancePanchangApiData: AdvancePanchangApiResponse;
+  advancePanchangApiData: AdvancePanchangApiResponse | undefined;
   translate: TranslationFunction;
   changeMonth(itemValue: string): void;
   changeYear(): void;

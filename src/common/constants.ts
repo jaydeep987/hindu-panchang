@@ -6,6 +6,9 @@ export const I18NNamespaces: {[K in I18NNamespacesType]: string} = {
   MONTHS_SHORT: 'months-short',
   YEAR_SELECTION: 'year-selection',
   LABELS: 'labels',
+  HINDU_MAAH: 'hinduMaah',
+  PAKSH: 'paksh',
+  NAKSHATRA: 'nakshatra',
 };
 
 /** Set debug mode on when developing. Turn this off in PROD. */
@@ -74,4 +77,11 @@ export enum Locations {
   WEST_BENGAL = 'WB',
 }
 
-type I18NNamespacesType = 'COMMON' | 'MONTHS_SHORT' | 'YEAR_SELECTION' | 'LABELS';
+type I18NNamespacesType =
+  'COMMON' |
+  'MONTHS_SHORT' |
+  'YEAR_SELECTION' |
+  'LABELS' |
+  'HINDU_MAAH' |
+  'PAKSH' |
+  'NAKSHATRA';

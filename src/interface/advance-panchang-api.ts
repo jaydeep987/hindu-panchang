@@ -86,7 +86,7 @@ interface KaranDetails {
   deity: string;
 }
 
-interface PanchangMaah {
+export interface PanchangMaah {
   adhik_status: boolean;
   purnimanta: string;
   amanta: string;

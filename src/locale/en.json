@@ -25,5 +25,52 @@
   "labels": {
     "vikramSamvat": "vi",
     "shakSamvat": "sk"
+  },
+  "hinduMaah": {
+    "chaitra": "chaitra",
+    "vaisakh": "vaisakh",
+    "jeth": "jeth",
+    "asadh": "asadh",
+    "shravan": "shravan",
+    "bhadarvo": "bhadarvo",
+    "aso": "aso",
+    "kartik": "kartik",
+    "magsar": "magsar",
+    "pos": "pos",
+    "maha": "maha",
+    "phagan": "phagan"
+  },
+  "paksh": {
+    "shukl": "shukl",
+    "krishn": "krishn"
+  },
+  "nakshatra": {
+    "ashvini": "ashvini",
+    "bharani": "bharani",
+    "krutika": "krutika",
+    "rohini": "rohini",
+    "mrigshirsh": "mrigshirsh",
+    "ardr": "ardr",
+    "punarvasu": "punarvasu",
+    "pushy": "pushy",
+    "ashlesh": "ashlesh",
+    "magha": "magha",
+    "purv_phalguni": "purv phalguni",
+    "uttar_phalguni": "uttar phalguni",
+    "hast": "hast",
+    "chitr": "chitr",
+    "svati": "svati",
+    "vishakha": "vishakha",
+    "anuradha": "anuradha",
+    "jyeshta": "jyeshta",
+    "mul": "mul",
+    "purvashadha": "purvashadha",
+    "uttarashadha": "uttarashadha",
+    "shravan": "shravan",
+    "shravishta": "shravishta",
+    "shatbhishak": "shatbhishak",
+    "purv_bhadrapada": "purv bhadrapada",
+    "uttar_bhadrapada": "uttar bhadrapada",
+    "revati": "revati"
   }
 }

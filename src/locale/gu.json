@@ -8,5 +8,52 @@
   "labels": {
     "vikramSamvat": "વિ.સ.",
     "shakSamvat": "શક.સ."
+  },
+  "hinduMaah": {
+    "chaitra": "ચૈતર",
+    "vaisakh": "વૈશાખ",
+    "jeth": "જેઠ",
+    "asadh": "અષાડ",
+    "shravan": "શ્રાવણ",
+    "bhadarvo": "ભાદરવો",
+    "aso": "આસો",
+    "kartik": "કારતક",
+    "magsar": "માગશર",
+    "pos": "પોષ",
+    "maha": "મહા",
+    "phagan": "ફાગણ"
+  },
+  "paksh": {
+    "shukl": "સુદ",
+    "krishn": "વદ"
+  },
+  "nakshatra": {
+    "ashvini": "ashvini",
+    "bharani": "bharani",
+    "krutika": "krutika",
+    "rohini": "rohini",
+    "mrigshirsh": "mrigshirsh",
+    "ardr": "ardr",
+    "punarvasu": "punarvasu",
+    "pushy": "pushy",
+    "ashlesh": "ashlesh",
+    "magha": "magha",
+    "purv_phalguni": "purv phalguni",
+    "uttar_phalguni": "uttar phalguni",
+    "hast": "hast",
+    "chitr": "chitr",
+    "svati": "svati",
+    "vishakha": "vishakha",
+    "anuradha": "anuradha",
+    "jyeshta": "jyeshta",
+    "mul": "mul",
+    "purvashadha": "purvashadha",
+    "uttarashadha": "uttarashadha",
+    "shravan": "shravan",
+    "shravishta": "shravishta",
+    "shatbhishak": "shatbhishak",
+    "purv_bhadrapada": "purv bhadrapada",
+    "uttar_bhadrapada": "uttar bhadrapada",
+    "revati": "revati"
   }
 }
